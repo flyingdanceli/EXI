@@ -347,11 +347,13 @@ public class ReconciliationCr extends BaseController{
 	@ResponseBody
 	public AjaxMessage changeStatus(HttpServletRequest request,HttpServletResponse response,Long[] id) throws SQLException{
 		String ids = "";
+		Date date = new Date();
 		for(Long i:id){
 			FaInvoice fi = new FaInvoice();
 			fi.setId(i);
 			fi.setStatus(3);
-			fi.setUpTime(new Date());
+			fi.setUpTime(date);
+			fi.setCollectionTime(date);
 			faInvoiceService.updateOneRecord(fi);
 		}
 		/*if(ids.length()>0){
