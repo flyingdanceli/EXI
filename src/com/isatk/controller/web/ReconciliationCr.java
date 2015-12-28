@@ -54,6 +54,7 @@ import com.isatk.service.base.BankNameService;
 import com.isatk.service.base.BasClienteleService;
 import com.isatk.service.base.FaInvoiceService;
 import com.isatk.service.base.SysPointService;
+import com.isatk.util.HttpUtils;
 import com.isatk.util.TimeFormatTemplate;
 @Controller
 @RequestMapping("/reconciliation")
@@ -243,34 +244,13 @@ public class ReconciliationCr extends BaseController{
 	}
 	@RequestMapping("/exportAllExcel.html")
 	public ModelAndView exportAllExcel(HttpServletRequest request,HttpServletResponse response,PageBean<FaInvoice, FaInvoice> page,FaInvoice faInvoice ,Integer timeType,Date time){
-		if(page==null){
-			page = new PageBean<FaInvoice,FaInvoice>();
-		}
-		if("".equals(faInvoice.getSoPhone()))
-			faInvoice.setSoPhone(null);
-		if("".equals(faInvoice.getSoName()))
-			faInvoice.setSoName(null);
-		if("".equals(faInvoice.getFaNo()))
-			faInvoice.setFaNo(null);
-		page.setPageSize(99999999);
-		if(timeType !=null && timeType == 1){
-			faInvoice.setFaTime(time);
-		}else if(timeType !=null && timeType == 2){
-			faInvoice.setSoTime(time);
-		}else if(timeType !=null && timeType == 3){
-			faInvoice.setCollectionTime(time);
-		}
-		faInvoice.setOrderString(" ins_time desc ");
-		page.setParameterEntity(faInvoice);
-		page.setHasEnable(1);
-		page = faInvoiceService.findListData(page);
 		ServletContext servletContext = request.getServletContext();
         File templeFile=new File(servletContext.getRealPath("/excel/ABCTemple.xls"));
         HSSFWorkbook workbook =null;
         try {
 			workbook = new HSSFWorkbook(new FileInputStream(templeFile));
 			HSSFSheet sheet = workbook.getSheetAt(0);
-			List<FaInvoice> list = page.getDataList();
+			List<FaInvoice> list = allFaInvoice(page,faInvoice,timeType,time);
 			int r=1;
 			for(int i=0;i< list.size();i++){
 				Integer collection = (Integer) (list.get(i).getCollection()==null?0:list.get(i).getCollection());
@@ -308,6 +288,77 @@ public class ReconciliationCr extends BaseController{
             }
         }
         return null;
+	}
+	/**
+	 * 根据条件，对所有客户发送到账短信
+	 * @param request
+	 * @param response
+	 * @param page
+	 * @param faInvoice
+	 * @param timeType
+	 * @param time
+	 * @return
+	 */
+	@RequestMapping("/sendAllMsg.html")
+	@ResponseBody
+	private ModelAndView sendAllMsg(HttpServletRequest request,HttpServletResponse response,PageBean<FaInvoice, FaInvoice> page,FaInvoice faInvoice ,Integer timeType,Date time){
+		List<FaInvoice> list = allFaInvoice(page,faInvoice,timeType,time);
+		String mobilecontent = "";
+		int i =0;
+		for(FaInvoice fi:list){
+			String fp = fi.getFaPhone();
+			if(fp!=null && fp.length()==11){
+				mobilecontent += fp+"|,|尊敬的“"+fi.getFaName()+"”，您单号"+fi.getFaNo()+"的代收货款已打款，请等待银行到账【鄂西物流】|;|";
+				i++;
+			}
+		}
+		if(mobilecontent.length()>0){
+			mobilecontent = mobilecontent.substring(0, mobilecontent.length()-3);
+		}
+		System.out.println(mobilecontent);
+		HttpUtils hp =  new HttpUtils();
+		hp.addPaprm("username", "向小宝");//%E5%90%91%E5%B0%8F%E5%AE%9D    向小宝
+		hp.addPaprm("userpwd", "888888");
+		hp.addPaprm("mobilecontent", mobilecontent);
+		String s = hp.send("http://123.56.85.26:6666/smsService/ptpSendService");
+		page.setPageNum(1);
+		page.setPageSize(20);
+		ModelAndView mv = mine(request,response,page,faInvoice,timeType,time);
+		mv.addObject("msg", "成功发送短信"+i+"条！");
+		return mv;
+	}
+	/**
+	 * 查询所有数据
+	 * @param page
+	 * @param faInvoice
+	 * @param timeType
+	 * @param time
+	 * @return
+	 */
+	private List<FaInvoice> allFaInvoice(PageBean<FaInvoice, FaInvoice> page,FaInvoice faInvoice ,Integer timeType,Date time){
+		if(page==null){
+			page = new PageBean<FaInvoice,FaInvoice>();
+		}
+		if("".equals(faInvoice.getSoPhone()))
+			faInvoice.setSoPhone(null);
+		if("".equals(faInvoice.getSoName()))
+			faInvoice.setSoName(null);
+		if("".equals(faInvoice.getFaNo()))
+			faInvoice.setFaNo(null);
+		page.setPageSize(99999999);
+		page.setPageNum(1);
+		if(timeType !=null && timeType == 1){
+			faInvoice.setFaTime(time);
+		}else if(timeType !=null && timeType == 2){
+			faInvoice.setSoTime(time);
+		}else if(timeType !=null && timeType == 3){
+			faInvoice.setCollectionTime(time);
+		}
+		faInvoice.setOrderString(" ins_time desc ");
+		page.setParameterEntity(faInvoice);
+		page.setHasEnable(1);
+		page = faInvoiceService.findListData(page);
+		return page.getDataList();
 	}
 	/**
      * 导出为excel文件

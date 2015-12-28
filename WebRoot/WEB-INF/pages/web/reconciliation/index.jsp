@@ -96,9 +96,21 @@
 		  <!-- Default panel contents -->
 		  <div class="panel-heading"><i class="fa fa-th-list"></i> 发货单 
 		  	<div class="pull-right">
-		  		<button type="button" id="dcgx_all" class="btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> 导出全部</button>
-		  		<button type="button" id="dcgx" class="btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> 导出勾选</button>
-		  		<button type="button" id="qrzf"  class="btn btn-danger btn-xs"><i class="fa fa-circle-o"></i> 确认代收已支付</button>
+		  		<div class="btn-toolbar" role="toolbar" aria-label="toolbar">
+		  			<div class="btn-group btn-group-xs" role="group" aria-label="group">
+		  				<button type="button" id="dcgx_all" class="btn btn-success btn-xs"><i class="fa fa-file"></i> 导出（全部）</button>
+		  				<button type="button" id="dcgx" class="btn btn-success btn-xs"><i class="fa fa-file-excel-o"></i> 导出（勾选）</button>
+		  			</div>
+		  			<div class="btn-group btn-group-xs" role="group" aria-label="group">
+		  				<button type="button" id="qrzf"  class="btn btn-danger btn-xs"><i class="fa fa-circle-o"></i> 确认代收已支付（勾选）</button>
+		  			</div>
+		  			<div class="btn-group btn-group-xs" role="group" aria-label="group">
+		  				<button type="button" id="sendsms"  class="btn btn-danger btn-xs"><i class="fa fa-envelope"></i> 发送短信（全部）</button>
+		  			</div>
+		  		</div>
+		  		
+		  		
+		  		
 		  	</div>
 		  </div>
 		
@@ -241,6 +253,11 @@ $(function(){
 		return false;
 		
 	});
+	$("#sendsms").click(function(){
+		$("#pagerForm").prop("action","${appPath }/reconciliation/sendAllMsg.html").submit();
+	});
+	if("${msg}" != "")
+		alert("${msg}");
 });
 </script>
 </html>
