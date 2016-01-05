@@ -37,6 +37,7 @@
             	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-server"></i> 系统管理 <span class="caret"></span></a>
 	            <ul class="dropdown-menu" role="menu">
 	            	<li><a href="${appPath }/sysUser/userIndex.html"><i class="fa fa-user"></i> 员工管理</a></li>
+	            	<li><a href="http://www.60dx.com" target="_blank"><i class="fa fa-envelope"></i> 短信管理</a></li>
 	            </ul>
             </li>
             </c:if> 
