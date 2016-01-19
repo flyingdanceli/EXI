@@ -84,4 +84,6 @@ public interface FaInvoiceMapper {
     
     FaInvoice countDetail2(FaInvoice record);
     
+    List<FaInvoice> countNum(FaInvoice record);
+    
 }

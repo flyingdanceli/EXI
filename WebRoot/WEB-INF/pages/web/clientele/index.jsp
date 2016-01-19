@@ -39,6 +39,7 @@
 		  <li  class="active">客户管理</li>
 		</ol>
      	<form class="form-inline" id="pagerForm" action="${appPath}/clientele/index.html" method="post">
+     	<input type="hidden" name="pageNum" value="1">
      		<div class="well">     		 
 			  <div class="form-group">
 			    <label for="exampleLoginName">姓名：</label>
@@ -75,7 +76,7 @@
 			  <div class="panel-heading"><i class="fa fa-th-list"></i> 客户信息 <div class="pull-right"><a href="${appPath }/clientele/addClientele.html" class="btn btn-success btn-xs"><i class="fa fa-user-plus"></i>添加客户</a></div></div>
 			
 			  <!-- Table -->
-			  <table class="table">
+			  <table class="table table-striped table-bordered table-hover table-condensed">
 			  	<thead>
 				  	<tr>
 				  		<th>姓名</th>
@@ -100,8 +101,8 @@
 			   			<td></td>
 			   			<td></td>
 			   			<td>
-			   				<a href="${appPath }/clientele/addClientele.html?id=${user.id}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i>修改</a>
-					      	<a href="#" onclick="deleteClientele(${user.id});" class="btn btn-default"><i class="fa fa-times"></i>删除</a>
+			   				<a href="${appPath }/clientele/addClientele.html?id=${user.id}" class="btn btn-success btn-xs"><i class="fa fa-pencil-square-o"></i>修改</a>
+					      	<a href="#" onclick="deleteClientele(${user.id});" class="btn btn-danger btn-xs "><i class="fa fa-times"></i>删除</a>
 					      	<!-- <a href="#" onclick="expHTML();">导出html</a>
 					      	<a href="#" onclick="expPDF();">导出pdf</a>
 					      	<a href="#" onclick="expWORD();">导出word</a> -->

@@ -50,6 +50,14 @@ public class ClienteleCr {
 		if(page==null){
 			page = new PageBean<BasClientele,BasClientele>();
 		}
+		if(clientele !=null){
+			if("".equals(clientele.getName())){
+				clientele.setName(null);
+			}
+			if("".equals(clientele.getPhone())){
+				clientele.setPhone(null);
+			}
+		}
 		ModelAndView mv=new ModelAndView("web/clientele/index");
 		page.setParameterEntity(clientele);
 		page.setHasEnable(1);

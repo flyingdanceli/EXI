@@ -12,6 +12,7 @@ import com.isatk.ge.model.bean.PageBean;
 import com.isatk.model.dao.BasClienteleMapper;
 import com.isatk.model.dto.BasClientele;
 import com.isatk.model.dto.BasClienteleExample;
+import com.isatk.model.dto.FaInvoice;
 import com.isatk.service.base.BasClienteleService;
 @Component
 public class BasClienteleServiceImpl implements BasClienteleService {
@@ -36,7 +37,9 @@ public class BasClienteleServiceImpl implements BasClienteleService {
 	@Override
 	public PageBean<BasClientele, BasClientele> findListData(
 			PageBean<BasClientele, BasClientele> page) throws SysException {
+		page.setPage(page.createPage());
 		BasClientele dto=page.getParameterEntity();
+		dto.setPage(page.createPage());
 		page.putLastRowNum(basClienteleMapper.countByCondiction(dto));
 		List<BasClientele> list=basClienteleMapper.selectListByCondiction(dto);
 		page.setDataList(list);

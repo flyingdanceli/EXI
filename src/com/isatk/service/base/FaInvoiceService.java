@@ -18,5 +18,6 @@ public interface FaInvoiceService extends BasicStandard<FaInvoice,FaInvoice> {
 	void deleteOneRecord(Long dbid, SysUser su) throws SysException;
 
 	void addOneForDel(Long dbid) throws SysException;
-
+	
+	List<FaInvoice> countNum(FaInvoice fa);
 }

@@ -173,6 +173,9 @@ public class FaInvoiceServiceImpl implements FaInvoiceService {
 	public FaInvoice findCountFaInvoice(FaInvoice fa){
 		return faInvoiceMapper.countDetail2(fa);
 	}
-
+	@Override
+	public List<FaInvoice> countNum(FaInvoice fa){
+		return faInvoiceMapper.countNum(fa);
+	}
 	
 }

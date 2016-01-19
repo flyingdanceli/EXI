@@ -864,4 +864,20 @@ public class FaInvoice extends BaseDTO implements Serializable {
 		this.basClienteleS = basClienteleS;
 	}
 	
+	//其他自定义属性
+	/**
+	 * 合计数量
+	 */
+	private Integer con;
+
+	public Integer getCon() {
+		return con;
+	}
+
+	public void setCon(Integer con) {
+		this.con = con;
+	}
+	
+	
+	
 }

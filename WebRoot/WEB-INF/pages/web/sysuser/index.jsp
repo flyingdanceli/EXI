@@ -46,7 +46,7 @@
 			  <div class="panel-heading"><i class="fa fa-th-list"></i> 员工信息 <div class="pull-right"><a href="${appPath }/sysUser/addUser.html" class="btn btn-success btn-xs"><i class="fa fa-user-plus"></i> 添加员工</a></div></div>
 			
 			  <!-- Table -->
-			  <table class="table">
+			  <table class="table table-striped table-bordered table-hover table-condensed">
 			  	<thead>
 			  	<tr>
 			   		<th>登录帐号</th>
@@ -68,8 +68,8 @@
 			   			<td><fmt:formatDate value="${user.insTime }"/></td>
 			   			<td><c:if test="${user.isDisable == 1}">是</c:if><c:if test="${user.isDisable != 1}">否</c:if></td>
 			   			<td>
-			   				<a href="${appPath }/sysUser/updateUser.html?id=${user.id}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i>修改</a>
-					      	<a href="#" onclick="deleteUser(${user.id});" class="btn btn-default"><i class="fa fa-times"></i>删除</a>
+			   				<a href="${appPath }/sysUser/updateUser.html?id=${user.id}" class="btn btn-success btn-xs"><i class="fa fa-pencil-square-o"></i>修改</a>
+					      	<a href="#" onclick="deleteUser(${user.id});" class="btn btn-danger btn-xs"><i class="fa fa-times"></i>删除</a>
 					   </td>
 			   		</tr>
 			   	</c:forEach>

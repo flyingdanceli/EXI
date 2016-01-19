@@ -308,7 +308,8 @@ public class ReconciliationCr extends BaseController{
 		for(FaInvoice fi:list){
 			String fp = fi.getFaPhone();
 			if(fp!=null && fp.length()==11 && fi.getCollection() !=null && fi.getCollection()>0 ){
-				mobilecontent += fp+"|,|尊敬的“"+fi.getFaName()+"”，您单号"+fi.getFaNo()+"的代收货款已打款，请等待银行到账【鄂西快运】|;|";
+				int money = fi.getCollection()-fi.getFee();
+				mobilecontent += fp+"|,|尊敬的“"+fi.getFaName()+"”，您单号"+fi.getFaNo()+"的代收货款("+money+"元)已打款，请等待银行到账【鄂西快运】|;|";
 				i++;
 			}
 		}

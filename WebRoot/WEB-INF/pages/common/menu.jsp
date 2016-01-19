@@ -26,6 +26,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-pie-chart"></i> 统计 <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
+              	<li><a href="${appPath }/report/index.html">整体统计</a></li>
                 <li><a href="#">月度统计</a></li>
                 <li><a href="#">年度统计</a></li>
                 <li class="divider"></li>

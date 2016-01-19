@@ -35,6 +35,7 @@
     <result column="so_time" jdbcType="TIMESTAMP" property="soTime" />
     <result column="collection_time" jdbcType="TIMESTAMP" property="collectionTime" />
     <result column="cargo_num" jdbcType="INTEGER" property="cargoNum" />
+    <result column="con" jdbcType="INTEGER" property="con" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -1112,5 +1113,27 @@
        and fi.so_name like concat('%',#{soName,jdbcType=VARCHAR},'%')
       </if>
   	</where>
+  </select>
+  
+  
+  <select id="countNum" parameterType="com.isatk.model.dto.FaInvoice" resultMap="BaseResultMap">
+  	<![CDATA[
+  	select con,cargo_num,freight,collection,count_insurance,fee,so_point_sub_money,year_day from date_data dd left join (
+		select 
+		  count(*) con,
+		  sum(cargo_num) cargo_num,
+		  sum(freight) freight,
+		  sum(collection) collection,
+		  sum(count_insurance) count_insurance,
+		  sum(fee) fee,
+		  sum(so_point_sub_money) so_point_sub_money,
+		  DATE_FORMAT(fa_time,'%Y%j') ft
+		from fa_invoice 
+		group by DATE_FORMAT(fa_time,'%Y%j')
+	) fi on fi.ft = dd.year_day
+	where year_day >='2015271'
+	and year_day < DATE_FORMAT(now(),'%Y%j')
+	order by year_day
+	]]>
   </select>
 </mapper>

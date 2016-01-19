@@ -112,7 +112,7 @@
 		  <div class="panel-heading"><i class="fa fa-th-list"></i> 我的发货单 <div class="pull-right"><a href="${appPath }/invoice/add.html" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加</a></div></div>
 		
 		  <!-- Table -->
-		  <table class="table table-striped table-bordered table-hover">
+		  <table class="table table-striped table-bordered table-hover ">
 		  	<thead>
 		  	<tr>
 		  		<th>运单号/发货时间</th>
