@@ -24,7 +24,7 @@
         <hr>
         <div class="row footer-bottom">
           <ul class="list-inline text-center">
-            <li><a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备********号</a></li><li>京公网安备***************</li>
+            <li><a href="http://www.miibeian.gov.cn/" target="_blank">鄂ICP备15019489号</a></li>
           </ul>
         </div>
       </div>
