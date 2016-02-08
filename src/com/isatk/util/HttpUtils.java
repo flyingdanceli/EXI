@@ -5,20 +5,27 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,10 +43,10 @@ public class HttpUtils {
 		return this;
 	}
 
-	public String send(String url,String token,Object o){
+	public String send(String url){
 		if(!url.startsWith("/")&&!url.startsWith("http"))
 			url="/"+url;
-		return postForm(url,token,o==null?params:o);
+		return postForm(url,params);
 	}
 	public HttpUtils clear(){
 		params = new HashMap<String,Object>();
@@ -131,18 +138,21 @@ public class HttpUtils {
 	/*private String postForm(String url, String token) {
 		return postForm(url,token,params);
 	}*/
-	/**
-	 * post方式提交表单
-	 */
-	private String postForm(String url, String token,Object o) {
+
+	
+	private String postForm(String url, Map params) {
 		// 创建默认的httpClient实例.
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		// 创建httppost
 		HttpPost httppost = new HttpPost(url);
 		try {
-			ObjectMapper jm = JsonConverter.getMapper();
-			System.out.println(jm.writeValueAsString(o));
-			httppost.setEntity(new StringEntity(jm.writeValueAsString(o), "utf-8"));
+			List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+			Iterator<String> key = params.keySet().iterator();
+			while (key.hasNext()) {
+				String name = (String) key.next();
+				formparams.add(new BasicNameValuePair(name, (String) params.get(name)));  
+			}
+			httppost.setEntity(new UrlEncodedFormEntity(formparams, "UTF-8"));
 			CloseableHttpResponse response = httpclient.execute(httppost);
 			try {
 				HttpEntity entity = response.getEntity();
@@ -167,5 +177,14 @@ public class HttpUtils {
 			}
 		}
 		return null;
+	}
+	public static void  main(String[] args) {
+		String mobilecontent = "18907121215|,|您单号"+new Date()+"的代收货款已打款，请等待银行到账【鄂西物流】";
+		HttpUtils hp =  new HttpUtils();
+		hp.addPaprm("username", "向小宝");//%E5%90%91%E5%B0%8F%E5%AE%9D    向小宝
+		hp.addPaprm("userpwd", "888888");
+		hp.addPaprm("mobilecontent", mobilecontent);
+		String s = hp.send("http://123.56.85.26:6666/smsService/ptpSendService");
+		System.out.println(s);
 	}
 }
